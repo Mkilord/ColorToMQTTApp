@@ -1,0 +1,33 @@
+Configuration:
+  status: WARN
+  appenders:
+    Console:
+      name: Console
+      target: SYSTEM_OUT
+      PatternLayout:
+        pattern: "%d{yyyy-MM-dd HH:mm:ss} %-5p [%t] %c{1}:%L - %m%n"
+    RollingFile:
+      name: RollingFile
+      fileName: logs/color-to-mqtt-app.log
+      filePattern: logs/color-to-mqtt-app-%d{yyyy-MM-dd}-%i.log.gz
+      PatternLayout:
+        pattern: "%d{yyyy-MM-dd HH:mm:ss} %-5p [%t] %c{1}:%L - %m%n"
+      Policies:
+        TimeBasedTriggeringPolicy:
+          interval: 1
+          modulate: true
+        SizeBasedTriggeringPolicy:
+          size: 5MB
+  loggers:
+    logger:
+      - name: ru.mkilord.colortomqttapp.settings.SettingsService
+        level: DEBUG
+        additivity: false
+        AppenderRef:
+          - ref: Console
+          - ref: RollingFile
+    Root:
+      level: ERROR
+      AppenderRef:
+        - ref: Console
+        - ref: RollingFile

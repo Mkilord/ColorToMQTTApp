@@ -1,7 +1,15 @@
 spring:
   application:
     name: ColorToMQTTApp
+
+app:
+  settings:
+    clientId: default
+    apiKey: yourApiKey
+    apiSecret: yourApiSecret
+
 vaadin:
   launch-browser: true
   frontend:
     hotdeploy: false
+

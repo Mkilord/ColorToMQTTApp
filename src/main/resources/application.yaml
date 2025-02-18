@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: ColorToMQTTApp
+vaadin:
+  launch-browser: true
+  frontend:
+    hotdeploy: false

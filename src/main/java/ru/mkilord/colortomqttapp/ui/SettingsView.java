@@ -12,27 +12,53 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
-import ru.mkilord.colortomqttapp.config.SettingsConfig;
+import ru.mkilord.colortomqttapp.params.Param;
+import ru.mkilord.colortomqttapp.settings.Settings;
 import ru.mkilord.colortomqttapp.settings.SettingsService;
 
 import java.util.Map;
 
 @Route("settings")
 public class SettingsView extends VerticalLayout {
-    public SettingsView(SettingsService settingsService, SettingsConfig settingsConfig) {
 
+    SettingsService settingsService;
+    Settings settings;
+
+    Button saveButton;
+
+    public SettingsView(SettingsService settingsService) {
+        this.settingsService = settingsService;
+        this.settings = settingsService.getSettings();
+
+        bindView();
+    }
+
+    private void bindView() {
         add(createHeader());
 
-        var settings = settingsService.getSettings();
         var settingsLayout = new VerticalLayout(getItems(settings.params()));
 
         add(settingsLayout);
-        add(restoreButton(settingsLayout, settingsConfig));
+        add(restoreButton(settingsLayout));
+        Button saveButton = new Button("Save");
+        saveButton.setVisible(true);
+        saveButton.addClickListener(e -> {
+            settingsService.save();
+            saveButton.setVisible(false);
+            Notification.show("Settings saved");
+        });
+        add(saveButton);
     }
 
-    private Button restoreButton(VerticalLayout settingsLayout, SettingsConfig settingsConfig) {
+    private void showSaveButton() {
+        saveButton.setVisible(true);
+
+    }
+
+
+    private Button restoreButton(VerticalLayout settingsLayout) {
         return new Button("Restore settings",
-                event -> openDialog(settingsLayout, settingsConfig));
+                event -> openDialog(settingsLayout));
     }
 
     private HorizontalLayout createHeader() {
@@ -47,7 +73,7 @@ public class SettingsView extends VerticalLayout {
         return headerLayout;
     }
 
-    private void openDialog(VerticalLayout settingsLayout, SettingsConfig settingsConfig) {
+    private void openDialog(VerticalLayout settingsLayout) {
         Dialog dialog = new Dialog();
         dialog.setModal(true);
         dialog.setCloseOnEsc(true);
@@ -60,7 +86,9 @@ public class SettingsView extends VerticalLayout {
         Button closeButton = new Button("Нет", e -> dialog.close());
         Button acceptButton = new Button("Да", e -> {
             settingsLayout.removeAll();
-            settingsLayout.add(getItems(settingsConfig.getSettings()));
+            settingsService.restoreToDefaultSettingsFromConfig();
+            settings = settingsService.getSettings();
+            settingsLayout.add(getItems(settings.params()));
             dialog.close();
         });
         buttonsLayout.add(closeButton, acceptButton);
@@ -97,11 +125,82 @@ public class SettingsView extends VerticalLayout {
         return new HorizontalLayout(tfName, tfValue, changeButton, acceptButton);
     }
 
-    private Component[] getItems(Map<String, String> settings) {
-        return settings
-                .entrySet()
-                .stream()
-                .map(entry -> createItem(entry.getKey(), entry.getValue()))
-                .toArray(Component[]::new);
+    private Component[] getItems(Map<String, Param> settings) {
+//        return settings
+//                .values()
+//                .stream()
+//                .map(this::getItem)
+//                .toArray(Component[]::new);
+        return new Component[] {};
     }
+
+//    private Component getItem(Param param) {
+//        var content = new HorizontalLayout();
+//        Component component = null;
+//        if (param instanceof BoolParam boolParam)
+//            component = getBoolItem(boolParam);
+//        else if (param instanceof IntParam intParam)
+//            component = getIntItem(intParam);
+//        else if (param instanceof StrParam strParam)
+//            component = getStrItem(strParam);
+//
+//        content.add(component);
+//
+//        content.add(new Button(VaadinIcon.INFO.create(), buttonClickEvent -> Notification.show(param.getDesc())));
+//
+//        return content;
+//    }
+//
+//    private Component getStrItem(StrParam param) {
+//        var content = getItemContentLayoutWithName(param.getKey());
+//        var text = new TextField();
+//        text.setValue(param.getValue());
+//        text.addValueChangeListener(event -> {
+//            String value = event.getValue();
+//            var updateParam = StrParam.getNewWithValue(param, value);
+//            settings.updateSetting(updateParam);
+//            showSaveButton();
+//        });
+//        content.add(text);
+//        return content;
+//    }
+
+
+//    private Component getIntItem(IntParam param) {
+//        var content = getItemContentLayoutWithName(param.getKey());
+//        var numberField = new NumberField();
+//        if (Objects.nonNull(param.getMin()))
+//            numberField.setMin(param.getMin());
+//        if (Objects.nonNull(param.getMax()))
+//            numberField.setMax(param.getMax());
+//        numberField.setStep(1);
+//        numberField.setValue(Double.valueOf(param.getValue()));
+//        numberField.addValueChangeListener(event -> {
+//            String value = String.valueOf(event.getValue());
+//            var updateParam = IntParam.getNewWithValue(param, value);
+//            settings.updateSetting(updateParam);
+//            showSaveButton();
+//        });
+//        content.add(numberField);
+//        return content;
+//    }
+
+    private HorizontalLayout getItemContentLayoutWithName(String name) {
+        return new HorizontalLayout(new NativeLabel(name));
+    }
+
+//    private Component getBoolItem(BoolParam param) {
+//        var content = getItemContentLayoutWithName(param.getKey());
+//        var comboBox = new ComboBox<>();
+//        comboBox.setItems("true", "false");
+//        comboBox.setValue("true");
+//        comboBox.addValueChangeListener(event -> {
+//            String value = (String) event.getValue();
+//            var updatedParam = BoolParam.getNewWithValue(param, value);
+//            settings.updateSetting(updatedParam);
+//            showSaveButton();
+//        });
+//        content.add(comboBox);
+//        return content;
+//    }
 }

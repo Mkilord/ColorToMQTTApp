@@ -1,20 +1,22 @@
 package ru.mkilord.colortomqttapp.settings;
 
+import ru.mkilord.colortomqttapp.params.Param;
+
 import java.util.Collections;
 import java.util.Map;
 
-public record Settings(Map<String, String> params) {
+public record Settings(Map<String, Param> params) {
 
     @Override
-    public Map<String, String> params() {
+    public Map<String, Param> params() {
         return Collections.unmodifiableMap(params);
     }
 
-    public void putSetting(String key, String value) {
-        params.put(key, value);
+    public void updateSetting(Param updatedParam) {
+        params.put(updatedParam.key(), updatedParam);
     }
 
-    public String getSetting(String key) {
+    public Param getSetting(String key) {
         return params.get(key);
     }
 }

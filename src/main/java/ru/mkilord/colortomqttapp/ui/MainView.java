@@ -19,7 +19,7 @@ import ru.mkilord.colortomqttapp.settings.SettingsService;
 public class MainView extends VerticalLayout {
     public MainView(SettingsService settingsService) {
         UI.getCurrent().getPage().setTitle("ColorToMQTTApp");
-        log.debug("Setting up UI with: {}", settingsService.getSetting("clientId"));
+//        log.debug("Setting up UI with: {}", settingsService.getSetting("clientId"));
         var headerLayout = new HorizontalLayout();
         headerLayout.addClassName("headerLayout");
         var appName = new H1("ColorToMQTTApp");

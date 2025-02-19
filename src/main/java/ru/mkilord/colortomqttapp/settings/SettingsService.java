@@ -8,7 +8,8 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
-import ru.mkilord.colortomqttapp.config.SettingsConfig;
+import ru.mkilord.colortomqttapp.config.SettingConfig;
+import ru.mkilord.colortomqttapp.params.Param;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,46 +30,53 @@ public class SettingsService {
     @NonFinal
     String settingsFilePath;
 
-    SettingsConfig settingsConfig;
+    SettingConfig config;
 
     @PostConstruct
     public void init() {
-        this.settingsFilePath = settingsConfig.getSettingsFilePath();
-        settings = loadSettings(settingsConfig.getSettings());
-    }
-
-    private Settings loadSettings(Map<String, String> defaultSettings) {
-        var objectMapper = new ObjectMapper();
-        try {
-            return objectMapper.readValue(new File(settingsFilePath), Settings.class);
-        } catch (IOException e) {
-            log.warn("Failed to load settings from file {}", settingsFilePath);
-            log.warn("Apply default settings!");
-
-            printDefaultSettingsToLogIfDebugEnabled(defaultSettings);
-            return new Settings(defaultSettings);
-        }
-    }
-
-    private void printDefaultSettingsToLogIfDebugEnabled(Map<String, String> defaultSettings) {
-        if (log.isDebugEnabled()) {
-            var stringJoiner = new StringJoiner("; ");
-            defaultSettings.forEach((key, value) -> stringJoiner.add(key + "=" + value));
-            log.debug(stringJoiner.toString());
-        }
+        this.settingsFilePath = config.getSettingsFilePath();
+        loadOrRestoreToDefaultSettings();
     }
 
     public void save() {
         var objectMapper = new ObjectMapper();
         try {
             objectMapper.writeValue(new File(settingsFilePath), settings);
+            log.debug("Saved settings to {}", settingsFilePath);
         } catch (IOException e) {
             throw new RuntimeException("Failed to save settings to file " + settingsFilePath, e);
         }
     }
 
-    public String getSetting(String key) {
-        return settings.getSetting(key);
+    public void restoreToDefaultSettingsFromConfig() {
+        log.debug("Restoring to default settings!");
+        var defaultSettingsMap = config.getDefaultSettings();
+
+        ifDebugPrintSettingsToLog(defaultSettingsMap);
+
+        settings = new Settings(defaultSettingsMap);
+        save();
+    }
+
+    private void loadOrRestoreToDefaultSettings() {
+        var objectMapper = new ObjectMapper();
+        try {
+            settings = objectMapper.readValue(new File(settingsFilePath), Settings.class);
+            log.debug("Loaded settings from {}", settingsFilePath);
+            ifDebugPrintSettingsToLog(settings.params());
+        } catch (IOException e) {
+            log.warn("Failed to load settings from file {}", settingsFilePath);
+            log.warn("Apply default settings!");
+            restoreToDefaultSettingsFromConfig();
+        }
+    }
+
+    private void ifDebugPrintSettingsToLog(Map<String, Param> settingsMap) {
+        if (log.isDebugEnabled()) {
+            var stringJoiner = new StringJoiner("; ");
+            settingsMap.forEach((key, value) -> stringJoiner.add(key + "=" + value));
+            log.debug(stringJoiner.toString());
+        }
     }
 }
 

@@ -20,14 +20,14 @@ Configuration:
           size: 5MB
   loggers:
     logger:
-      - name: ru.mkilord.colortomqttapp.settings.SettingsService
+      - name: ru.mkilord.colortomqttapp.config
         level: DEBUG
         additivity: false
         AppenderRef:
           - ref: Console
           - ref: RollingFile
     Root:
-      level: ERROR
+      level: INFO
       AppenderRef:
         - ref: Console
         - ref: RollingFile

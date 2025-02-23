@@ -3,10 +3,11 @@ spring:
     name: ColorToMQTTApp
 
 app:
-  settings:
-    clientId: default
-    apiKey: yourApiKey
-    apiSecret: yourApiSecret
+  defaultSettings:
+    maxHSB: 10
+    minHSB: 20
+    current: true
+    test: text
 
 vaadin:
   launch-browser: true

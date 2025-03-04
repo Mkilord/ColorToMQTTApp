@@ -1,7 +1,7 @@
-package ru.mkilord.colortomqttapp.detector;
+package ru.mkilord.colortomqttapp.common.detector;
 
 import lombok.RequiredArgsConstructor;
-import ru.mkilord.colortomqttapp.processor.Processor;
+import ru.mkilord.colortomqttapp.common.processor.Processor;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

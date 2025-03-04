@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Настройки</title>
+	<meta charset="UTF-8">
+	<link href="/css/style.css" rel="stylesheet">
+</head>
+<body>
+	<h1>Настройки</h1>
+	<form action="/settings" method="post">
+		<label for="mqttServer">Mqtt Server</label>
+		<input id="mqttServer" name="mqttServer" required th:value="${mqttServer}"
+		       type="text"/>
+
+		<label for="interval">Интервал обновления (мс):</label>
+		<input id="interval" max="60" min="1" name="interval" required th:value="${interval}"
+		       type="number"/>
+
+		<button type="submit">Сохранить</button>
+	</form>
+	<br>
+	<a href="/">Назад</a>
+</body>
+</html>

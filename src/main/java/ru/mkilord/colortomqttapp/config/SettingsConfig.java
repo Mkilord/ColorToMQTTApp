@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import ru.mkilord.colortomqttapp.properties.PropertiesLoader;
+import ru.mkilord.colortomqttapp.service.SettingsService;
 
 import java.nio.file.Path;
 import java.util.Map;
@@ -21,15 +21,21 @@ import static lombok.AccessLevel.PRIVATE;
 @Configuration
 @ConfigurationProperties(prefix = "app")
 @FieldDefaults(level = PRIVATE)
-public class PropertiesConfig {
+public class SettingsConfig {
 
-    final String settingsFilePath = Path.of(".").toAbsolutePath().resolve("settings.txt").normalize().toString();
+    final Path settingsFilePath = Path.of(".").toAbsolutePath().resolve("settings.txt").normalize();
+
     @Setter
     Map<String, String> defaultSettings;
 
     @Primary
     @Bean
-    public Properties getProperties(PropertiesLoader propertiesLoader) {
-        return propertiesLoader.getPropertiesClone();
+    public Properties getProperties(SettingsService settingsService) {
+        return settingsService.loadOrElseLoadDefault();
+    }
+
+    @Bean
+    public SettingsService getSettingsService(SettingsConfig config) {
+        return new SettingsService(config);
     }
 }

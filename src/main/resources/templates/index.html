@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Цвет Монитора</title>
+	<script src="/js/script.js"></script>
+	<link href="/css/style.css" rel="stylesheet">
+</head>
+<body>
+	<h1>Цвет Монитора</h1>
+	<div id="color-box" th:style="'background-color:' + ${color} + '; width:100px; height:100px;'"></div>
+	<button id="startBtn" onclick="start()">Старт</button>
+	<button onclick="stop()">Стоп</button>
+	<button onclick="window.location.href='/settings'">Настройки</button>
+
+	<div id="notification" class="notification"></div>
+</body>
+</html>

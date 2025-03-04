@@ -4,13 +4,10 @@ spring:
 
 app:
   defaultSettings:
+    screenHeight: 1920
+    screenWight: 1080
     maxHSB: 10
     minHSB: 20
     current: true
     test: text
-
-vaadin:
-  launch-browser: true
-  frontend:
-    hotdeploy: false
 

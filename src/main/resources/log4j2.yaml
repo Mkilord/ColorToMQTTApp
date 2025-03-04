@@ -20,7 +20,7 @@ Configuration:
           size: 5MB
   loggers:
     logger:
-      - name: ru.mkilord.colortomqttapp.config
+      - name: ru.mkilord.colortomqttapp
         level: DEBUG
         additivity: false
         AppenderRef:

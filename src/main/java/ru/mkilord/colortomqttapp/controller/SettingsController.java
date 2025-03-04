@@ -20,6 +20,7 @@ import static lombok.AccessLevel.PRIVATE;
 public class SettingsController {
     Properties prop;
 
+
     @GetMapping
     public String settingsPage(Model model) {
         model.addAttribute("mqttServer", prop.get("text"));
@@ -29,8 +30,6 @@ public class SettingsController {
 
     @PostMapping
     public String updateSettings(@RequestParam String mqttServer, @RequestParam int interval) {
-//        this.mqttServer = mqttServer;
-//        this.interval = interval;
         return "redirect:/settings";
     }
 }

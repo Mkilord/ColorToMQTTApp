@@ -1,7 +1,6 @@
 spring:
   application:
     name: ColorToMQTTApp
-
 app:
   defaultSettings:
     screenHeight: 1920

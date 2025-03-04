@@ -1,40 +1,49 @@
 package ru.mkilord.colortomqttapp.controller;
 
+import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import ru.mkilord.colortomqttapp.service.ColorDetectionService;
 
 import static lombok.AccessLevel.PRIVATE;
 
+@Log4j2
 @Controller
 @RequestMapping("/")
+@AllArgsConstructor
 @FieldDefaults(level = PRIVATE, makeFinal = true)
 public class MainController {
+    ColorDetectionService colorDetectionService;
+
     @GetMapping
     public String index(Model model) {
         model.addAttribute("color", "#FFFFFF");
         return "index";
     }
 
-    @ResponseBody
     @PostMapping("/start")
-    public String startColorDetection() {
-        return "startColorDetection";
+    public ResponseEntity<String> startColorDetection() {
+        colorDetectionService.start();
+        return ResponseEntity.ok("Успешно запущено!");
     }
 
-    @ResponseBody
     @PostMapping("/stop")
-    public String stopColorDetection() {
-        return "stopColorDetection";
+    public ResponseEntity<String> stopColorDetection() {
+        colorDetectionService.stop();
+        return ResponseEntity.ok("Процесс остановлен!");
     }
 
     @GetMapping("/color")
     @ResponseBody
     public String getColor() {
-        return "#111111";
+        var color = colorDetectionService.getCurrentColor();
+        return String.format("#%02X%02X%02X", color.getRed(), color.getGreen(), color.getBlue());
     }
 }

@@ -1,4 +1,4 @@
-package ru.mkilord.colortomqttapp.common.processor;
+package ru.mkilord.colortomqttapp.common.detector.processor;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

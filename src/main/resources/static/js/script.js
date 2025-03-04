@@ -29,6 +29,7 @@ function updateColor() {
     fetch('/color')
         .then(response => response.text())
         .then(color => {
+            console.log(color);
             document.getElementById('color-box').style.backgroundColor = color;
         });
 }

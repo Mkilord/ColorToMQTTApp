@@ -48,7 +48,7 @@ public class SettingsService {
         try {
             return load();
         } catch (IOException e) {
-            log.warn("Could not load properties from file {}", settingsFilePath, e);
+            log.warn("Could not load properties from file {}", settingsFilePath);
             return loadDefault();
         }
     }

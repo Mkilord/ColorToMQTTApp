@@ -11,6 +11,11 @@ app:
     detector: averageColorDetector #averageColorDetector
     screenAreaType: centeredArea
     cellSize: 20
+    #MQTT
+    broker: "tcp://192.168.0.126:1883"
+    topic: colorToMQTT
+    username: mqtt-user
+    password: 123qwe123QWE
 
     minHUE: 0
     maxHUE: 360
@@ -18,13 +23,4 @@ app:
     maxSaturation: 100
     minBrightness: 200
     maxBrightness: 0
-#    HUECoefficient: 360
-#    saturationCoefficient: 100
-#    brightnessCoefficient: 255
-#    sensitivityCoefficient: 20
-    mqtt_server: mqtt-server
-    mqtt_port: 1883
-    mqtt_topic: colorToMQTT
-    mqtt_username: mqtt_user
-    mqtt_password: 12345
 

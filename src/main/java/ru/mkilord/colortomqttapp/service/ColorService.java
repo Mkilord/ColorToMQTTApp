@@ -23,6 +23,7 @@ public final class ColorService {
     ColorChangeService colorChangeService;
     ColorSenderService colorSenderService;
 
+
     RepeaterService repeaterService;
 
     public void start() {

@@ -8,7 +8,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import ru.mkilord.colortomqttapp.service.SettingsService;
 
 import java.nio.file.Path;
 import java.util.Map;

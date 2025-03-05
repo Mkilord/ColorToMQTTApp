@@ -26,7 +26,7 @@
     -->
 <body>
 	<h1>Настройки</h1>
-	<form action="/settings" method="post">
+	<form action="/settingsService" method="post">
 		<label for="mqttServer">Mqtt Server</label>
 		<input id="mqttServer" name="mqttServer" required th:value="${mqttServer}"
 		       type="text"/>

@@ -1,9 +1,7 @@
-package ru.mkilord.colortomqttapp.common.detector.factory;
+package ru.mkilord.colortomqttapp.core.detector;
 
 import org.springframework.stereotype.Component;
-import ru.mkilord.colortomqttapp.common.detector.AverageColorDetector;
-import ru.mkilord.colortomqttapp.common.detector.Detector;
-import ru.mkilord.colortomqttapp.common.detector.processor.Processor;
+import ru.mkilord.colortomqttapp.core.processor.Processor;
 
 @Component
 public class DetectorFactory {

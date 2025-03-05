@@ -1,10 +1,9 @@
-package ru.mkilord.colortomqttapp.service;
+package ru.mkilord.colortomqttapp.config;
 
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.stereotype.Service;
-import ru.mkilord.colortomqttapp.config.SettingsConfig;
+import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -13,7 +12,7 @@ import java.util.Properties;
 import static lombok.AccessLevel.PRIVATE;
 
 @Log4j2
-@Service
+@Component
 @AllArgsConstructor
 @FieldDefaults(level = PRIVATE, makeFinal = true)
 public class SettingsService {

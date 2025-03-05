@@ -1,4 +1,4 @@
-package ru.mkilord.colortomqttapp.common.screenshoter;
+package ru.mkilord.colortomqttapp.core.screenshoter;
 
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;

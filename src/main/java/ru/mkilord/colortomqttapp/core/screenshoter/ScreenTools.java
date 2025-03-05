@@ -1,4 +1,4 @@
-package ru.mkilord.colortomqttapp.common.screenshoter;
+package ru.mkilord.colortomqttapp.core.screenshoter;
 
 import java.awt.*;
 

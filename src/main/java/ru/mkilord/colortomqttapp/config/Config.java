@@ -2,7 +2,7 @@ package ru.mkilord.colortomqttapp.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import ru.mkilord.colortomqttapp.common.screenshoter.ScreenShooter;
+import ru.mkilord.colortomqttapp.core.screenshoter.ScreenShooter;
 
 import java.awt.*;
 

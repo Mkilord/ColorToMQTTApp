@@ -6,11 +6,13 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
-import ru.mkilord.colortomqttapp.common.detector.ColorChangeDetector;
-import ru.mkilord.colortomqttapp.common.detector.Detector;
-import ru.mkilord.colortomqttapp.common.detector.processor.factory.ProcessorFactory;
-import ru.mkilord.colortomqttapp.common.screenshoter.ScreenShooter;
-import ru.mkilord.colortomqttapp.common.screenshoter.ScreenTools;
+import ru.mkilord.colortomqttapp.config.BindSettings;
+import ru.mkilord.colortomqttapp.config.SettingsService;
+import ru.mkilord.colortomqttapp.core.detector.ColorChangeMatcher;
+import ru.mkilord.colortomqttapp.core.detector.Detector;
+import ru.mkilord.colortomqttapp.core.processor.ProcessorFactory;
+import ru.mkilord.colortomqttapp.core.screenshoter.ScreenShooter;
+import ru.mkilord.colortomqttapp.core.screenshoter.ScreenTools;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -24,9 +26,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static lombok.AccessLevel.PRIVATE;
-import static ru.mkilord.colortomqttapp.common.detector.factory.DetectorFactory.AVERAGE_COLOR_DETECTOR;
-import static ru.mkilord.colortomqttapp.common.detector.factory.DetectorFactory.get;
-import static ru.mkilord.colortomqttapp.common.detector.processor.factory.ProcessorFactory.CHESS_PROCESSOR;
+import static ru.mkilord.colortomqttapp.core.detector.DetectorFactory.AVERAGE_COLOR_DETECTOR;
+import static ru.mkilord.colortomqttapp.core.detector.DetectorFactory.get;
+import static ru.mkilord.colortomqttapp.core.processor.ProcessorFactory.CHESS_PROCESSOR;
 
 @Service
 @Log4j2
@@ -34,8 +36,14 @@ import static ru.mkilord.colortomqttapp.common.detector.processor.factory.Proces
 @RequiredArgsConstructor(access = PRIVATE)
 public class ColorDetectionService {
 
-    ScreenShooter screenShooter;
     SettingsService settingsService;
+
+    ScreenCaptureService screenCaptureService;
+    ColorProcessorService colorProcessorService;
+    ColorChangeService colorChangeService;
+    ColorSenderService colorSenderService;
+
+    ScreenShooter screenShooter;
     @NonFinal
     Properties properties;
     @NonFinal
@@ -52,9 +60,28 @@ public class ColorDetectionService {
     @NonFinal
     ScheduledFuture<?> futureTask;
 
+    public void start0() {
+        applySettings();
+        if(isRunning.get()) return;
+        isRunning.set(true);
+        futureTask = scheduler.scheduleAtFixedRate(()->{
+
+        })
+    }
+
+    private void applySettings() {
+        this.properties = settingsService.loadOrElseLoadDefault();
+        screenCaptureService.applySettings(properties);
+        colorProcessorService.applySettings(properties);
+        colorChangeService.applySettings(properties);
+        colorSenderService.applySettings(properties);
+    }
+
     public void start() {
         log.debug("Starting color detection service");
         this.properties = settingsService.loadOrElseLoadDefault();
+        screenCaptureService.applySettings(properties);
+
         this.screenSize = bindScreenSize();
         this.detector = bindDetector();
 
@@ -63,7 +90,7 @@ public class ColorDetectionService {
             futureTask = scheduler.scheduleAtFixedRate(() -> {
                 if (isRunning.get()) {
                     Color color = detectColor();
-                    if (!ColorChangeDetector.hasColorChanged(currentColor, color, 50)) return;
+                    if (!ColorChangeMatcher.hasColorChanged(currentColor, color, 50)) return;
                     currentColor = color;
                     sendToServer(color);
                     return;
@@ -73,8 +100,21 @@ public class ColorDetectionService {
         }
     }
 
+
+
+    private void detectAndSendColor() {
+        if (isRunning.get()) {
+            var image = screenCaptureService.captureScreen();
+            var color = colorProcessorService.detectColor(image);
+            if (colorChangeService.hasColorChanged(color))
+                colorSenderService.send(color);
+            return;
+        }
+        futureTask.cancel(false);
+    }
+
     private Detector bindDetector() {
-        var processor = ProcessorFactory.get(CHESS_PROCESSOR, 20);
+        var processor = ProcessorFactory.get(CHESS_PROCESSOR, properties);
         detector = get(AVERAGE_COLOR_DETECTOR, processor);
         return detector;
     }
@@ -103,4 +143,6 @@ public class ColorDetectionService {
     private void sendToServer(Color color) {
         // Отправка цвета на сервер
     }
+
+
 }

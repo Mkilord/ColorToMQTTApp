@@ -1,8 +1,8 @@
-package ru.mkilord.colortomqttapp.common.detector;
+package ru.mkilord.colortomqttapp.core.detector;
 
 import java.awt.Color;
 
-public class ColorChangeDetector {
+public class ColorChangeMatcher {
     /**
      * Проверяет, изменился ли цвет в зависимости от чувствительности.
      *

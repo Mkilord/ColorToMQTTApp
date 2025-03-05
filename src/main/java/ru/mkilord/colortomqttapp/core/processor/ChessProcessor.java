@@ -1,12 +1,19 @@
-package ru.mkilord.colortomqttapp.common.detector.processor;
+package ru.mkilord.colortomqttapp.core.processor;
+
+import lombok.AllArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
 import java.util.function.BiConsumer;
 
+import static lombok.AccessLevel.PRIVATE;
+
+@Setter
+@AllArgsConstructor
+@FieldDefaults(level = PRIVATE, makeFinal = true)
 public class ChessProcessor extends Processor {
 
-    public ChessProcessor(int frameSize) {
-        super(frameSize);
-    }
+    int frameSize;
 
     @Override
     public void process(int width, int height, BiConsumer<Integer, Integer> action) {

@@ -17,7 +17,7 @@ import static lombok.AccessLevel.PRIVATE;
 
 @Service
 @FieldDefaults(level = PRIVATE)
-public class RepeaterService implements BindSettings {
+public final class RepeaterService implements BindSettings {
 
     final AtomicBoolean isRunning = new AtomicBoolean(false);
     final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();

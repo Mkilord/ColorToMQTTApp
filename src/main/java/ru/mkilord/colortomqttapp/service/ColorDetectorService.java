@@ -17,7 +17,7 @@ import static lombok.AccessLevel.PRIVATE;
 @Setter
 @Service
 @FieldDefaults(level = PRIVATE)
-public final class ColorProcessorService implements BindSettings {
+public final class ColorDetectorService implements BindSettings {
     Detector detector;
 
     @Override

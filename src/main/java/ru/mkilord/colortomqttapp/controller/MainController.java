@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import ru.mkilord.colortomqttapp.service.ColorDetectionService;
+import ru.mkilord.colortomqttapp.service.ColorService;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -20,7 +20,7 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor
 @FieldDefaults(level = PRIVATE, makeFinal = true)
 public class MainController {
-    ColorDetectionService colorDetectionService;
+    ColorService colorService;
 
     @GetMapping
     public String index(Model model) {
@@ -30,20 +30,20 @@ public class MainController {
 
     @PostMapping("/start")
     public ResponseEntity<String> startColorDetection() {
-        colorDetectionService.start();
+        colorService.start();
         return ResponseEntity.ok("Успешно запущено!");
     }
 
     @PostMapping("/stop")
     public ResponseEntity<String> stopColorDetection() {
-        colorDetectionService.stop();
+        colorService.stop();
         return ResponseEntity.ok("Процесс остановлен!");
     }
 
     @GetMapping("/color")
     @ResponseBody
     public String getColor() {
-        var color = colorDetectionService.getCurrentColor();
+        var color = colorService.getCurrentColor();
         return String.format("#%02X%02X%02X", color.getRed(), color.getGreen(), color.getBlue());
     }
 }

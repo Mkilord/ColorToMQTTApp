@@ -20,7 +20,6 @@ import static lombok.AccessLevel.PRIVATE;
 public class SettingsController {
     Properties prop;
 
-
     @GetMapping
     public String settingsPage(Model model) {
         model.addAttribute("mqttServer", prop.get("text"));

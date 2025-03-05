@@ -1,13 +1,15 @@
+let isStarted = false;
+
 function start() {
     fetch('/start', {method: 'POST'})
         .then(response => response.text())
         .then((message) => {
-
-            let button = document.getElementById('startBtn');
-            button.classList.add('start-active');
-            console.log(document.getElementById('startBtn')); // Должен вернуть элемент кнопки
+            document.getElementById('startBtn').classList.add('start-active');
             showNotification(message, 'success');
+            isStarted = true;
+            updateColorLoop()
         }).catch(error => {
+        isStarted = false;
         showNotification('Ошибка при старте: ' + error, 'error');
     })
 }
@@ -17,20 +19,27 @@ function stop() {
         .then(response => response.text())
         .then((message) => {
             showNotification(message, 'success');
-            let button = document.getElementById('startBtn');
-            button.classList.remove('start-active');
+            document.getElementById('startBtn').classList.remove('start-active');
+            isStarted = false;
         })
         .catch(error => {
             showNotification('Ошибка при остановке: ' + error, 'error');
         })
 }
 
-function updateColor() {
+function updateColorLoop() {
+    if (!isStarted) return;
+
     fetch('/color')
         .then(response => response.text())
         .then(color => {
             console.log(color);
             document.getElementById('color-box').style.backgroundColor = color;
+        })
+        .finally(() => {
+            if (isStarted) {
+                setTimeout(updateColorLoop, 500); // Запускаем следующий вызов
+            }
         });
 }
 

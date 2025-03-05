@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+import ru.mkilord.colortomqttapp.common.detector.ColorChangeDetector;
 import ru.mkilord.colortomqttapp.common.detector.Detector;
 import ru.mkilord.colortomqttapp.common.detector.processor.factory.ProcessorFactory;
 import ru.mkilord.colortomqttapp.common.screenshoter.ScreenShooter;
@@ -52,6 +53,7 @@ public class ColorDetectionService {
     ScheduledFuture<?> futureTask;
 
     public void start() {
+        log.debug("Starting color detection service");
         this.properties = settingsService.loadOrElseLoadDefault();
         this.screenSize = bindScreenSize();
         this.detector = bindDetector();
@@ -61,12 +63,13 @@ public class ColorDetectionService {
             futureTask = scheduler.scheduleAtFixedRate(() -> {
                 if (isRunning.get()) {
                     Color color = detectColor();
+                    if (!ColorChangeDetector.hasColorChanged(currentColor, color, 50)) return;
                     currentColor = color;
                     sendToServer(color);
                     return;
                 }
                 futureTask.cancel(false);
-            }, 0, 1, TimeUnit.SECONDS);
+            }, 0, 500, TimeUnit.MILLISECONDS);
         }
     }
 
@@ -81,6 +84,7 @@ public class ColorDetectionService {
     }
 
     public void stop() {
+        log.debug("Stopping color detection service");
         isRunning.set(false);
         if (nonNull(futureTask)) futureTask.cancel(false);
     }

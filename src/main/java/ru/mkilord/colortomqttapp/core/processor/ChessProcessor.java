@@ -11,7 +11,7 @@ import static lombok.AccessLevel.PRIVATE;
 @Setter
 @AllArgsConstructor
 @FieldDefaults(level = PRIVATE, makeFinal = true)
-public class ChessProcessor extends Processor {
+public class ChessProcessor implements Processor {
 
     int frameSize;
 

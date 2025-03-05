@@ -1,9 +1,7 @@
 package ru.mkilord.colortomqttapp.core.detector;
 
-import org.springframework.stereotype.Component;
 import ru.mkilord.colortomqttapp.core.processor.Processor;
 
-@Component
 public class DetectorFactory {
     public static final String AVERAGE_COLOR_DETECTOR = "averageColorDetector";
 

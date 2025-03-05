@@ -1,10 +1,7 @@
 package ru.mkilord.colortomqttapp.core.processor;
 
-import org.springframework.stereotype.Component;
-
 import java.util.Properties;
 
-@Component
 public class ProcessorFactory {
     public static final String CHESS_PROCESSOR = "chessProcessor";
 

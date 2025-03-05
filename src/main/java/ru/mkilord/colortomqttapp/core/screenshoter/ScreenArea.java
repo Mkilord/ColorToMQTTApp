@@ -2,7 +2,7 @@ package ru.mkilord.colortomqttapp.core.screenshoter;
 
 import java.awt.*;
 
-public class ScreenTools {
+public class ScreenArea {
     public static Rectangle createCenteredAreaWithSize(Dimension size) {
         var resolution = Toolkit.getDefaultToolkit().getScreenSize();
         var x = (resolution.width - size.width) / 2;

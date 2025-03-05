@@ -1,9 +1,10 @@
 package ru.mkilord.colortomqttapp.service;
 
 import lombok.experimental.FieldDefaults;
-import lombok.experimental.NonFinal;
 import org.springframework.stereotype.Service;
+import ru.mkilord.colortomqttapp.config.BindSettings;
 
+import java.util.Properties;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -15,15 +16,21 @@ import static java.util.Objects.nonNull;
 import static lombok.AccessLevel.PRIVATE;
 
 @Service
-@FieldDefaults(level = PRIVATE, makeFinal = true)
-public class RepeaterService {
+@FieldDefaults(level = PRIVATE)
+public class RepeaterService implements BindSettings {
 
-    AtomicBoolean isRunning = new AtomicBoolean(false);
-    ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
-    @NonFinal
+    final AtomicBoolean isRunning = new AtomicBoolean(false);
+    final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+
     ScheduledFuture<?> futureTask;
+    int updatePeriod;
 
-    public void start(Runnable runnable) {
+    @Override
+    public void applySettings(Properties props) {
+        this.updatePeriod = Integer.parseInt(props.getProperty("updatePeriod"));
+    }
+
+    public void repeat(Runnable runnable) {
         if (isRunning.get()) return;
         if (isNull(futureTask) || futureTask.isCancelled()) {
             isRunning.set(true);
@@ -33,7 +40,7 @@ public class RepeaterService {
                     return;
                 }
                 futureTask.cancel(false);
-            }, 0, 500, TimeUnit.MILLISECONDS);
+            }, 0, updatePeriod, TimeUnit.MILLISECONDS);
         }
     }
 
@@ -42,5 +49,4 @@ public class RepeaterService {
         if (nonNull(futureTask)) futureTask.cancel(false);
         scheduler.shutdown();
     }
-
 }

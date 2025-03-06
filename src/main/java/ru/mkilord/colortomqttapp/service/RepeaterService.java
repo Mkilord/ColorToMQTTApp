@@ -47,6 +47,5 @@ public final class RepeaterService implements BindSettings {
     public void stop() {
         isRunning.set(false);
         if (nonNull(futureTask)) futureTask.cancel(false);
-        scheduler.shutdown();
     }
 }

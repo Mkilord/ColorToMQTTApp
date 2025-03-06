@@ -8,8 +8,8 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.stereotype.Service;
 import ru.mkilord.colortomqttapp.config.BindSettings;
+import ru.mkilord.colortomqttapp.core.HSBColor;
 
-import java.awt.*;
 import java.util.Properties;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -19,10 +19,7 @@ import static lombok.AccessLevel.PRIVATE;
 @FieldDefaults(level = PRIVATE)
 public class MQTTClientService implements BindSettings {
 
-    String broker;
-    String topic;
-    String username;
-    String password;
+    String broker, topic, username, password;
 
     MqttClient client;
 

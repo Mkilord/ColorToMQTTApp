@@ -5,8 +5,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import ru.mkilord.colortomqttapp.config.SettingsService;
-
-import java.awt.*;
+import ru.mkilord.colortomqttapp.core.HSBColor;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -35,7 +34,7 @@ public final class ColorService {
         repeaterService.stop();
     }
 
-    public Color getCurrentColor() {
+    public HSBColor getCurrentColor() {
         return colorChangeService.getCurrentColor();
     }
 

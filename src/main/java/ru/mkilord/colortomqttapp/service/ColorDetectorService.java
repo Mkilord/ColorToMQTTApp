@@ -4,11 +4,11 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import ru.mkilord.colortomqttapp.config.BindSettings;
+import ru.mkilord.colortomqttapp.core.HSBColor;
 import ru.mkilord.colortomqttapp.core.detector.Detector;
 import ru.mkilord.colortomqttapp.core.detector.DetectorFactory;
 import ru.mkilord.colortomqttapp.core.processor.ProcessorFactory;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Properties;
 
@@ -26,7 +26,7 @@ public final class ColorDetectorService implements BindSettings {
         this.detector = DetectorFactory.get(props.getProperty("detector"), processor);
     }
 
-    public Color detectColor(BufferedImage image) {
+    public HSBColor detectColor(BufferedImage image) {
         return detector.detect(image);
     }
 }

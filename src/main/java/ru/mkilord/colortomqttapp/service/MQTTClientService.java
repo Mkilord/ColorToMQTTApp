@@ -34,9 +34,10 @@ public class MQTTClientService implements BindSettings {
         tryConnect(options);
     }
 
-    public void sendColor(Color color) {
+    public void sendColor(HSBColor color) {
         var strMessage = """
-                {"hue":%d,"sat":%d,"brightness":%d}""".formatted(color.getRed(), color.getRed(), color.getBlue());
+                {"hue":%.0f,"sat":%.0f,"brightness":%.0f}"""
+                .formatted(color.getHue(), color.getSaturation(), color.getBrightness());
         var message = new MqttMessage(strMessage.getBytes());
         message.setQos(0);
         try {

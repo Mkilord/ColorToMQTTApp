@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import ru.mkilord.colortomqttapp.config.BindSettings;
+import ru.mkilord.colortomqttapp.core.HSBColor;
 
-import java.awt.*;
 import java.util.Properties;
 
 @Service
@@ -14,7 +14,7 @@ import java.util.Properties;
 public final class ColorSenderService implements BindSettings {
     MQTTClientService mqttClientService;
 
-    public void send(Color color) {
+    public void send(HSBColor color) {
         mqttClientService.sendColor(color);
         log.info("Sending color: " + color);
     }

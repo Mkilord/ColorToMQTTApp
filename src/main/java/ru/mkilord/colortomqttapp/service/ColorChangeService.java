@@ -5,9 +5,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import ru.mkilord.colortomqttapp.config.BindSettings;
+import ru.mkilord.colortomqttapp.core.HSBColor;
 import ru.mkilord.colortomqttapp.core.detector.ColorChangeMatcher;
 
-import java.awt.*;
 import java.util.Properties;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -17,7 +17,7 @@ import static lombok.AccessLevel.PRIVATE;
 @RequiredArgsConstructor(access = PRIVATE)
 public final class ColorChangeService implements BindSettings {
     @Getter
-    Color currentColor = Color.BLACK;
+    HSBColor currentColor = new HSBColor(0, 0, 0);
     int sensitivity;
     final ColorChangeMatcher colorChangeMatcher = new ColorChangeMatcher();
 
@@ -26,7 +26,7 @@ public final class ColorChangeService implements BindSettings {
         this.sensitivity = Integer.parseInt(props.getProperty("sensitivity"));
     }
 
-    public boolean hasColorChanged(Color newColor) {
+    public boolean hasColorChanged(HSBColor newColor) {
         if (colorChangeMatcher.hasColorChanged(currentColor, newColor, sensitivity)) {
             currentColor = newColor;
             return true;

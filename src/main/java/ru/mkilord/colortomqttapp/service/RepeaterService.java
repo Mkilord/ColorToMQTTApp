@@ -1,6 +1,7 @@
 package ru.mkilord.colortomqttapp.service;
 
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.mkilord.colortomqttapp.config.BindSettings;
 
@@ -15,6 +16,7 @@ import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static lombok.AccessLevel.PRIVATE;
 
+@Slf4j
 @Service
 @FieldDefaults(level = PRIVATE)
 public final class RepeaterService implements BindSettings {
@@ -36,7 +38,11 @@ public final class RepeaterService implements BindSettings {
             isRunning.set(true);
             futureTask = scheduler.scheduleAtFixedRate(() -> {
                 if (isRunning.get()) {
+                    try{
                     runnable.run();
+                    }catch (Exception e) {
+                        log.error(e.getMessage(), e);
+                    }
                     return;
                 }
                 futureTask.cancel(false);

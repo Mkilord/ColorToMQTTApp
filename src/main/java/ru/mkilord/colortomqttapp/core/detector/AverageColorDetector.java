@@ -1,11 +1,8 @@
 package ru.mkilord.colortomqttapp.core.detector;
 
-import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.log4j.Log4j2;
-import ru.mkilord.colortomqttapp.core.HSBColor;
 import ru.mkilord.colortomqttapp.core.processor.Processor;
-import ru.mkilord.colortomqttapp.core.utils.Converter;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -18,9 +15,8 @@ public class AverageColorDetector extends Detector {
     public AverageColorDetector(Processor processor) {
         super(processor);
     }
-    Converter converter = new Converter();
 
-    public HSBColor detect(BufferedImage image) {
+    public Color detect(BufferedImage image) {
         class rgbCount {
             float red, green, blue;
             int count;
@@ -39,9 +35,8 @@ public class AverageColorDetector extends Detector {
         var averageGreen = (int) (rgbCount.green / rgbCount.count);
         var averageBlue = (int) (rgbCount.blue / rgbCount.count);
 
-        var hsbColor = converter.rgbToHSV(averageRed, averageGreen, averageBlue);
-
-        log.debug("Average color h:{}, s:{}, b:{}", hsbColor.getHue(), hsbColor.getSaturation(), hsbColor.getBrightness());
-        return hsbColor;
+        var color = new Color(averageRed, averageGreen, averageBlue);
+        log.debug("Average color R:{}, G:{}, B:{}", color.getRed(), color.getGreen(), color.getBlue());
+        return color;
     }
 }

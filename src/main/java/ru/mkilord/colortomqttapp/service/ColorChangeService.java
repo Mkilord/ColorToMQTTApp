@@ -17,7 +17,7 @@ import static lombok.AccessLevel.PRIVATE;
 @RequiredArgsConstructor(access = PRIVATE)
 public final class ColorChangeService implements BindSettings {
     @Getter
-    HSBColor currentColor = new HSBColor(0, 0, 0);
+    HSBColor currentColor = null;
     int sensitivity;
     final ColorChangeMatcher colorChangeMatcher = new ColorChangeMatcher();
 
@@ -26,9 +26,9 @@ public final class ColorChangeService implements BindSettings {
         this.sensitivity = Integer.parseInt(props.getProperty("sensitivity"));
     }
 
-    public boolean hasColorChanged(HSBColor newColor) {
-        if (colorChangeMatcher.hasColorChanged(currentColor, newColor, sensitivity)) {
-            currentColor = newColor;
+    public boolean hasColorChanged(HSBColor color) {
+        if (colorChangeMatcher.hasColorChanged(currentColor, color, sensitivity)) {
+            currentColor = color;
             return true;
         } else return false;
     }

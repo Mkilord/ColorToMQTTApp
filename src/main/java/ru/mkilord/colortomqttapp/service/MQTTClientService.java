@@ -6,6 +6,7 @@ import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.springframework.stereotype.Service;
 import ru.mkilord.colortomqttapp.config.BindSettings;
 import ru.mkilord.colortomqttapp.core.HSBColor;
@@ -56,7 +57,7 @@ public class MQTTClientService implements BindSettings {
 
     private void tryConnect(MqttConnectOptions options) {
         try {
-            client = new MqttClient(broker, MqttClient.generateClientId());
+            client = new MqttClient(broker, MqttClient.generateClientId(), new MemoryPersistence());
             client.connect(options);
             log.info("Connected to broker: " + broker);
         } catch (MqttException e) {

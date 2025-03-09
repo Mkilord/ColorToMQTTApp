@@ -44,6 +44,6 @@ public class MainController {
     @ResponseBody
     public String getColor() {
         var color = colorService.getCurrentColor();
-        return String.format("#%02X%02X%02X", (int) color.getHue(), (int) color.getBrightness(), (int) color.getSaturation());
+        return String.format("#%02X%02X%02X", color.getRed(), color.getGreen(), color.getBlue());
     }
 }

@@ -35,7 +35,9 @@ function updateColorLoop() {
         .then(color => {
             console.log(color);
             document.getElementById('color-box').style.backgroundColor = color;
-        })
+        }).catch(() => {
+        isStarted = false;
+    })
         .finally(() => {
             if (isStarted) {
                 setTimeout(updateColorLoop, 500); // Запускаем следующий вызов

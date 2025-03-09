@@ -3,26 +3,25 @@ package ru.mkilord.colortomqttapp.core;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+
+import java.awt.*;
 
 import static lombok.AccessLevel.PRIVATE;
 
-@FieldDefaults(level = PRIVATE)
-@Setter
 @Getter
-@AllArgsConstructor
 @EqualsAndHashCode
+@FieldDefaults(level = PRIVATE)
+@AllArgsConstructor
 public class HSBColor {
     float hue;
     float saturation;
     float brightness;
 
-    public float[] getFloatArray() {
-        return new float[]{hue, saturation, brightness};
-    }
-
-    public int[] getIntArray() {
-        return new int[]{(int) hue, (int) saturation, (int) brightness};
+    public HSBColor(Color color) {
+        var hsbVals = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
+        this.hue = hsbVals[0] * 360;
+        this.saturation = hsbVals[1] * 100;
+        this.brightness = hsbVals[2] * 100;
     }
 }

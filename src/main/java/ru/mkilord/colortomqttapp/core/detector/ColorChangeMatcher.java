@@ -2,8 +2,13 @@ package ru.mkilord.colortomqttapp.core.detector;
 
 import ru.mkilord.colortomqttapp.core.HSBColor;
 
+import java.util.Objects;
+
 public class ColorChangeMatcher {
     public boolean hasColorChanged(HSBColor curHSV, HSBColor newHSV, int sensitivity) {
+        if (Objects.isNull(curHSV) || Objects.isNull(newHSV)) {
+            return true;
+        }
         if (sensitivity < 0 || sensitivity > 100) {
             throw new IllegalArgumentException("Sensitivity must be from 0 to 100");
         }

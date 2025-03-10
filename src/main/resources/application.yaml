@@ -3,15 +3,19 @@ spring:
     name: ColorToMQTTApp
 app:
   defaultSettings:
-    screenHeight: 200
-    screenWight: 200
-    updatePeriod: 5 #ms
-    sensitivity: 30 #min 0 max 100
+    screenHeight: 400
+    screenWight: 400
+    updatePeriod: 10 #ms
     processor: ru.mkilord.colortomqttapp.core.processor.ChessProcessor
     detector: ru.mkilord.colortomqttapp.core.detector.AverageColorDetector
     screenAreaType: ru.mkilord.colortomqttapp.core.screenshoter.screenArea.DefaultScreenArea
-    stateTracker: ru.mkilord.colortomqttapp.core.tracker.SimpleColorStateTracker
-    cellSize: 10
+    stateTracker: ru.mkilord.colortomqttapp.core.tracker.ToleranceColorStateTracker
+    sensitivity: 30 #min 0 max 100
+    hueTolerance: 0.2
+    saturationTolerance: 0.3
+    brightnessTolerance: 0.3
+
+    cellSize: 20
 
     #MQTT
     broker: "tcp://192.168.0.126:1883"

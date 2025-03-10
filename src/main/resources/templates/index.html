@@ -10,6 +10,8 @@
 <body>
 	<h1>Цвет Монитора</h1>
 	<div id="color-box" th:style="'background-color:' + ${color} + '; width:100px; height:100px;'"></div>
+	<span id="color-description"></span>
+	<br>
 	<button id="startBtn" onclick="start()">Старт</button>
 	<button onclick="stop()">Стоп</button>
 	<button onclick="window.location.href='/settings'">Настройки</button>

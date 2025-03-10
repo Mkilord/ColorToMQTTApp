@@ -9,6 +9,10 @@ body {
 h1 {
     color: #333;
 }
+span #color-description{
+    font-size: small;
+    color: #333;
+}
 
 #color-box {
     width: 150px;

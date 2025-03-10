@@ -35,6 +35,7 @@ function updateColorLoop() {
         .then(color => {
             console.log(color);
             document.getElementById('color-box').style.backgroundColor = color;
+            document.getElementById('color-description').textContent = color;
         }).catch(() => {
         isStarted = false;
     })

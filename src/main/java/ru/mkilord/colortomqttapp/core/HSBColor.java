@@ -13,7 +13,7 @@ import static lombok.AccessLevel.PRIVATE;
 @EqualsAndHashCode
 @FieldDefaults(level = PRIVATE)
 @AllArgsConstructor
-public class HSBColor {
+public final class HSBColor {
     float hue;
     float saturation;
     float brightness;

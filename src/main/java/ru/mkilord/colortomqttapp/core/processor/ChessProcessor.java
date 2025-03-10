@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Properties;
 import java.util.function.BiConsumer;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -11,9 +12,15 @@ import static lombok.AccessLevel.PRIVATE;
 @Setter
 @AllArgsConstructor
 @FieldDefaults(level = PRIVATE, makeFinal = true)
-public class ChessProcessor implements Processor {
+public final class ChessProcessor implements Processor {
+
+    public static final String CELL_SIZE_KEY = "cellSize";
 
     int frameSize;
+
+    public ChessProcessor(Properties properties) {
+        this.frameSize = Integer.parseInt(properties.getProperty(CELL_SIZE_KEY));
+    }
 
     @Override
     public void process(int width, int height, BiConsumer<Integer, Integer> action) {

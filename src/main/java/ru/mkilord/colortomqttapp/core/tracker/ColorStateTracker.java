@@ -1,10 +1,20 @@
 package ru.mkilord.colortomqttapp.core.tracker;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldDefaults;
+
 import java.awt.*;
 
-public interface ColorStateTracker {
-    String STATE_TRACKER_KEY = "stateTracker";
+import static lombok.AccessLevel.PRIVATE;
 
-    boolean hasColorChanged(Color color);
-    Color getCurrentColor();
+@Setter
+@Getter
+@FieldDefaults(level = PRIVATE)
+public abstract class ColorStateTracker {
+
+    public static String STATE_TRACKER_KEY = "stateTracker";
+    Color currentColor = Color.BLACK;
+
+    public abstract boolean hasColorChanged(Color color);
 }

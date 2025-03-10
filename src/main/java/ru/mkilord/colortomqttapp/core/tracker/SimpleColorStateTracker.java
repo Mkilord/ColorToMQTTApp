@@ -8,7 +8,7 @@ import java.util.Objects;
 import static lombok.AccessLevel.PRIVATE;
 
 @FieldDefaults(level = PRIVATE)
-public final class SimpleColorStateTracker implements ColorStateTracker {
+public final class SimpleColorStateTracker extends ColorStateTracker {
 
     Color currentColor = Color.BLACK;
 
@@ -19,8 +19,4 @@ public final class SimpleColorStateTracker implements ColorStateTracker {
         return hasChanged;
     }
 
-    @Override
-    public Color getCurrentColor() {
-        return currentColor;
-    }
 }

@@ -10,7 +10,7 @@ import static lombok.AccessLevel.PRIVATE;
 
 @Log4j2
 @FieldDefaults(level = PRIVATE)
-public final class DefaultColorStateTracker implements ColorStateTracker {
+public final class DefaultColorStateTracker extends ColorStateTracker {
 
     public static final String SENSITIVITY_KEY = "sensitivity";
     final int sensitivity;

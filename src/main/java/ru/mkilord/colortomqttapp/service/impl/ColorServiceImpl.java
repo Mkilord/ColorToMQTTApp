@@ -58,7 +58,7 @@ public final class ColorServiceImpl implements ColorService {
         this.colorDetector = new AbstractFactory<ColorDetector>().get(ColorDetector.DETECTOR_KEY, properties);
         this.colorLimit = new DefaultColorLimit(properties);
         this.colorPublisher = new MQTTColorPublisher(properties);
-        this.colorTracker = new DefaultColorStateTracker(properties);
+        this.colorTracker = new AbstractFactory<ColorStateTracker>().get(ColorStateTracker.STATE_TRACKER_KEY, properties);
         this.repeatServiceImpl = new RepeatServiceImpl(properties);
     }
 

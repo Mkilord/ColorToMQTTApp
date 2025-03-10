@@ -4,7 +4,6 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.log4j.Log4j2;
 
 import java.awt.*;
-import java.util.Objects;
 import java.util.Properties;
 
 import static lombok.AccessLevel.PRIVATE;

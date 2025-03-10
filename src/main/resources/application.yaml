@@ -10,7 +10,9 @@ app:
     processor: ru.mkilord.colortomqttapp.core.processor.ChessProcessor
     detector: ru.mkilord.colortomqttapp.core.detector.AverageColorDetector
     screenAreaType: ru.mkilord.colortomqttapp.core.screenshoter.screenArea.DefaultScreenArea
+    stateTracker: ru.mkilord.colortomqttapp.core.tracker.SimpleColorStateTracker
     cellSize: 10
+
     #MQTT
     broker: "tcp://192.168.0.126:1883"
     topic: colorToMQTT

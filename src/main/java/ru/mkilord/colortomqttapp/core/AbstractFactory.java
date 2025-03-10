@@ -11,17 +11,17 @@ public final class AbstractFactory<T> {
         var className = config.getProperty(key);
         log.error("Creating " + key);
         if (className == null || className.isEmpty()) {
-            throw new IllegalArgumentException("Class with name:"+className+" for the factory is missing or empty in the config.");
+            throw new IllegalArgumentException("Class with name:" + className + " for the factory is missing or empty in the config.");
         }
 
         try {
-            // Получаем класс по имени
             Class<?> clazz = Class.forName(className);
-
-            var constructor = clazz.getDeclaredConstructor(Properties.class);
-
-            return (T) constructor.newInstance(config);
-
+            try {
+                var constructor = clazz.getDeclaredConstructor(Properties.class);
+                return (T) constructor.newInstance(config);
+            } catch (NoSuchMethodException e) {
+                return (T) clazz.getDeclaredConstructor().newInstance();
+            }
         } catch (ClassNotFoundException e) {
             throw new IllegalArgumentException("Class not found: " + className, e);
         } catch (Exception e) {

@@ -33,7 +33,7 @@ button {
     font-size: 16px;
 }
 .start-active {
-    background-color: #28a745; /* Синий для активной кнопки */
+    background-color: #28a745;
 }
 .start-active:hover {
     background-color: #1b7731;
@@ -49,11 +49,11 @@ button {
     cursor: pointer;
     border-radius: 5px;
     font-size: 16px;
-    text-decoration: none; /* Убирает подчеркивание */
+    text-decoration: none;
 }
 
 .button-link:hover {
-    background-color: #0056b3; /* Цвет при наведении */
+    background-color: #0056b3;
 }
 
 .notification {

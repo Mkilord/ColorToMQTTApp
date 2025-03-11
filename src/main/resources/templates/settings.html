@@ -3,38 +3,20 @@
 <head>
 	<title>Настройки</title>
 	<meta charset="UTF-8">
-	<link href="/css/style.css" rel="stylesheet">
+	<link href="/styles/css/style.css" rel="stylesheet" type="text/css">
 </head>
-<!--
-	screenHeight: 1920
-    screenWight: 1080
-    minHUE: 0
-    maxHUE: 360
-    minSaturation: 0
-    maxSaturation: 100
-    minBrightness: 200
-    maxBrightness: 0
-    HUECoefficient: 360
-    saturationCoefficient: 100
-    brightnessCoefficient: 255
-    sensitivityCoefficient: 20
-    mqtt_server: mqtt-server
-    mqtt_port: 1883
-    mqtt_topic: colorToMQTT
-    mqtt_username: mqtt_user
-    mqtt_password: 12345
-    -->
 <body>
 	<h1>Настройки</h1>
+	<div>
+		Превью
+	</div>
 	<form action="/settingsService" method="post">
 		<label for="mqttServer">Mqtt Server</label>
 		<input id="mqttServer" name="mqttServer" required th:value="${mqttServer}"
 		       type="text"/>
-
 		<label for="interval">Интервал обновления (мс):</label>
 		<input id="interval" max="60" min="1" name="interval" required th:value="${interval}"
 		       type="number"/>
-
 		<button type="submit">Сохранить</button>
 	</form>
 	<br>

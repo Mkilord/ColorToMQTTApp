@@ -39,6 +39,7 @@ public final class MQTTColorPublisher implements ColorPublisher {
         try {
             client.publish(topic, message);
         } catch (MqttException e) {
+            compileOptionAndTryConnect();
             log.error("Error sending message!", e);
         }
     }

@@ -10,12 +10,13 @@ import ru.mkilord.colortomqttapp.core.HSBColor;
 import ru.mkilord.colortomqttapp.core.detector.ColorDetector;
 import ru.mkilord.colortomqttapp.core.limit.ColorLimit;
 import ru.mkilord.colortomqttapp.core.limit.DefaultColorLimit;
+import ru.mkilord.colortomqttapp.core.modifier.ColorModifier;
+import ru.mkilord.colortomqttapp.core.modifier.DefaultColorModifier;
 import ru.mkilord.colortomqttapp.core.publisher.ColorPublisher;
 import ru.mkilord.colortomqttapp.core.publisher.MQTTColorPublisher;
 import ru.mkilord.colortomqttapp.core.screenshoter.DefaultScreenShooter;
 import ru.mkilord.colortomqttapp.core.screenshoter.ScreenShooter;
 import ru.mkilord.colortomqttapp.core.tracker.ColorStateTracker;
-import ru.mkilord.colortomqttapp.core.tracker.DefaultColorStateTracker;
 import ru.mkilord.colortomqttapp.service.ColorService;
 
 import java.awt.*;
@@ -37,6 +38,7 @@ public final class ColorServiceImpl implements ColorService {
     ColorStateTracker colorTracker;
     ColorLimit colorLimit;
     ColorPublisher colorPublisher;
+    ColorModifier colorModifier;
 
     public void start() {
         bind();
@@ -54,6 +56,7 @@ public final class ColorServiceImpl implements ColorService {
     private void bind() {
         var properties = settingsService.loadOrElseLoadDefault();
 
+        this.colorModifier = new DefaultColorModifier(properties);
         this.screenShooter = new DefaultScreenShooter(properties);
         this.colorDetector = new AbstractFactory<ColorDetector>().get(ColorDetector.DETECTOR_KEY, properties);
         this.colorLimit = new DefaultColorLimit(properties);
@@ -72,6 +75,7 @@ public final class ColorServiceImpl implements ColorService {
     }
 
     private void applyLimitAndPublish(HSBColor hsbColor) {
+        hsbColor = colorModifier.modify(hsbColor);
         hsbColor = colorLimit.applyFor(hsbColor);
         colorPublisher.publish(hsbColor);
     }

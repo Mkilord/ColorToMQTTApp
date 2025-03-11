@@ -15,6 +15,10 @@ app:
     saturationTolerance: 0.3
     brightnessTolerance: 0.3
 
+    modifyHue: 2
+    modifySaturation: 10
+    modifyBrightness: 2
+
     cellSize: 20
 
     #MQTT

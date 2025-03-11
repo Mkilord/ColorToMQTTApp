@@ -40,17 +40,21 @@ public final class ColorServiceImpl implements ColorService {
     ColorPublisher colorPublisher;
     ColorModifier colorModifier;
 
+    boolean isStarted;
+
     @Override
     public boolean isStart() {
-        return repeatServiceImpl.isRunning();
+        return isStarted;
     }
 
     public void start() {
         bind();
+        isStarted = true;
         repeatServiceImpl.repeat(this::process);
     }
 
     public void stop() {
+        isStarted = false;
         repeatServiceImpl.stop();
     }
 

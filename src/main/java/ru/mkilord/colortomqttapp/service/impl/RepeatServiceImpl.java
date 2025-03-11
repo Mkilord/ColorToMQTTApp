@@ -36,17 +36,7 @@ public final class RepeatServiceImpl implements RepeaterService {
         if (isRunning.get()) return;
         if (isNull(futureTask) || futureTask.isCancelled()) {
             isRunning.set(true);
-            futureTask = scheduler.scheduleAtFixedRate(() -> {
-                if (isRunning.get()) {
-                    try {
-                        runnable.run();
-                    } catch (Exception e) {
-                        log.error(e.getMessage(), e);
-                    }
-                    return;
-                }
-                futureTask.cancel(false);
-            }, 0, updatePeriod, TimeUnit.MILLISECONDS);
+            futureTask = scheduler.scheduleAtFixedRate(()-> repeatRunnable(runnable), 0, updatePeriod, TimeUnit.MILLISECONDS);
         }
     }
 
@@ -54,5 +44,17 @@ public final class RepeatServiceImpl implements RepeaterService {
     public void stop() {
         isRunning.set(false);
         if (nonNull(futureTask)) futureTask.cancel(false);
+    }
+
+    private void repeatRunnable(Runnable runnable) {
+        if (isRunning.get()) {
+            try {
+                runnable.run();
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
+            }
+            return;
+        }
+        futureTask.cancel(false);
     }
 }

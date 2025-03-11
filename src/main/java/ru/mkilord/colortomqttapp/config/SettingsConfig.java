@@ -29,12 +29,6 @@ public class SettingsConfig {
     @Setter
     Map<String, String> defaultSettings;
 
-
-    @Bean
-    public SettingsService getSettingsService(SettingsConfig config) {
-        return new SettingsServiceImpl(config);
-    }
-
     @Primary
     @Bean
     public Properties getProperties(SettingsService settingsService) {

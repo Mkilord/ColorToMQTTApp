@@ -1,6 +1,12 @@
 spring:
   application:
     name: ColorToMQTTApp
+  devtools:
+    restart:
+      enabled: true
+  web:
+    resources:
+      static-locations: classpath:/static/
 app:
   defaultSettings:
     screenHeight: 400

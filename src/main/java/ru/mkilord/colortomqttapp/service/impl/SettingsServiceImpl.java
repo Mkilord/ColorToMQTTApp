@@ -1,11 +1,16 @@
-package ru.mkilord.colortomqttapp.config;
+package ru.mkilord.colortomqttapp.service.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
+import ru.mkilord.colortomqttapp.config.SettingsConfig;
+import ru.mkilord.colortomqttapp.service.SettingsService;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
@@ -15,10 +20,11 @@ import static lombok.AccessLevel.PRIVATE;
 @Component
 @AllArgsConstructor
 @FieldDefaults(level = PRIVATE, makeFinal = true)
-public class SettingsService {
+public final class SettingsServiceImpl implements SettingsService {
 
     SettingsConfig config;
 
+    @Override
     public void save(Properties editedProperties) {
         var propertiesFile = config.getSettingsFilePath();
 
@@ -30,6 +36,7 @@ public class SettingsService {
         }
     }
 
+    @Override
     public Properties load() throws IOException {
         var propertiesFile = config.getSettingsFilePath();
 
@@ -41,6 +48,7 @@ public class SettingsService {
         }
     }
 
+    @Override
     public Properties loadOrElseLoadDefault() {
         var settingsFilePath = config.getSettingsFilePath();
         log.debug("Loading properties from file {}", settingsFilePath);
@@ -52,6 +60,7 @@ public class SettingsService {
         }
     }
 
+    @Override
     public Properties loadDefault() {
         var properties = new Properties();
         properties.putAll(config.getDefaultSettings());

@@ -8,6 +8,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import ru.mkilord.colortomqttapp.service.SettingsService;
+import ru.mkilord.colortomqttapp.service.impl.SettingsServiceImpl;
 
 import java.nio.file.Path;
 import java.util.Map;
@@ -27,14 +29,15 @@ public class SettingsConfig {
     @Setter
     Map<String, String> defaultSettings;
 
+
+    @Bean
+    public SettingsService getSettingsService(SettingsConfig config) {
+        return new SettingsServiceImpl(config);
+    }
+
     @Primary
     @Bean
     public Properties getProperties(SettingsService settingsService) {
         return settingsService.loadOrElseLoadDefault();
-    }
-
-    @Bean
-    public SettingsService getSettingsService(SettingsConfig config) {
-        return new SettingsService(config);
     }
 }

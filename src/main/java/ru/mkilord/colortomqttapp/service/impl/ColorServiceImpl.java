@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
-import ru.mkilord.colortomqttapp.config.SettingsService;
 import ru.mkilord.colortomqttapp.core.AbstractFactory;
 import ru.mkilord.colortomqttapp.core.HSBColor;
 import ru.mkilord.colortomqttapp.core.detector.ColorDetector;
@@ -18,6 +17,7 @@ import ru.mkilord.colortomqttapp.core.screenshoter.DefaultScreenShooter;
 import ru.mkilord.colortomqttapp.core.screenshoter.ScreenShooter;
 import ru.mkilord.colortomqttapp.core.tracker.ColorStateTracker;
 import ru.mkilord.colortomqttapp.service.ColorService;
+import ru.mkilord.colortomqttapp.service.SettingsService;
 
 import java.awt.*;
 

@@ -10,7 +10,7 @@ target/
 .classpath
 .factorypath
 .project
-.settingsService
+.settingsServiceImpl
 .springBeans
 .sts4-cache
 

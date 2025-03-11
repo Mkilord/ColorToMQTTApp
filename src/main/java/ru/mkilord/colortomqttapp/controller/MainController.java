@@ -24,7 +24,8 @@ public class MainController {
 
     @GetMapping
     public String index(Model model) {
-        model.addAttribute("color", "#FFFFFF");
+        model.addAttribute("color", "#000000");
+        model.addAttribute("isStart", colorService.isStart());
         return "index";
     }
 

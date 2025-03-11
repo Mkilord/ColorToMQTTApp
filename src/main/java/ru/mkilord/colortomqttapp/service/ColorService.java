@@ -6,6 +6,8 @@ import java.awt.*;
 
 @Service
 public interface ColorService {
+    boolean isStart();
+
     void start();
 
     void stop();

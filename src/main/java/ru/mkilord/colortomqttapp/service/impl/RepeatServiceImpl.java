@@ -30,6 +30,9 @@ public final class RepeatServiceImpl implements RepeaterService {
     public RepeatServiceImpl(Properties properties) {
         this.updatePeriod = Integer.parseInt(properties.getProperty("updatePeriod"));
     }
+    public boolean isRunning() {
+        return isRunning.get();
+    }
 
     @Override
     public void repeat(Runnable runnable) {

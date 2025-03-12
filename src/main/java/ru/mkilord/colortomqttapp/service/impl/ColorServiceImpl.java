@@ -55,7 +55,9 @@ public final class ColorServiceImpl implements ColorService {
 
     public void stop() {
         isStarted = false;
-        repeatServiceImpl.stop();
+        if (repeatServiceImpl != null) {
+            repeatServiceImpl.stop();
+        }
     }
 
     public Color getCurrentColor() {
